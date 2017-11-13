@@ -88,22 +88,20 @@ void WSGameHallUtils::doQueryUserInfo()
 #endif
 }
 
-void WSGameHallUtils::doPay(std::string orderId, std::string cost, std::string desc, std::string extralInfo)
+void WSGameHallUtils::doPay(std::string orderId, int cost, std::string desc, std::string extralInfo)
 {
 	log("WSGameHallUtils doPay");
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 	JniMethodInfo minfo;
-	bool isHave = JniHelper::getStaticMethodInfo(minfo, "com/wesai/mygame/Utils", "doPay", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	bool isHave = JniHelper::getStaticMethodInfo(minfo, "com/wesai/mygame/Utils", "doPay", "(Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V");
 	if (isHave)
 	{
 		jstring jOrder = minfo.env->NewStringUTF(orderId.c_str()); 
-		jstring jCost = minfo.env->NewStringUTF(cost.c_str());
 		jstring jDesc = minfo.env->NewStringUTF(desc.c_str()); 
 		jstring jExtral = minfo.env->NewStringUTF(extralInfo.c_str()); 
-		minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID, jOrder, jCost, jDesc, jExtral);
+		minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID, jOrder, cost, jDesc, jExtral);
 		minfo.env->DeleteLocalRef(minfo.classID);
 		minfo.env->DeleteLocalRef(jOrder);  //释放String类
-		minfo.env->DeleteLocalRef(jCost);  //释放String类
 		minfo.env->DeleteLocalRef(jDesc);  //释放String类
 		minfo.env->DeleteLocalRef(jExtral);  //释放String类
 	}

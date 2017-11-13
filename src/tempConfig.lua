@@ -1,0 +1,7 @@
+GETPOS="获取位置: "
+GETPUSH="推送"
+ADD_ACHIVIMENT="添加成就结果: "
+PAY_RESULT="支付结果: "
+GET_USERINFO="用户信息："
+NOTIFICATION="推送信息: "
+POS_CHANGED="位置改变: "

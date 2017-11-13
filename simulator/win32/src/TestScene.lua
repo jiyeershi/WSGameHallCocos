@@ -1,6 +1,6 @@
 
 local TestScene = class("TestScene", cc.Scene)
-local luaoc --= require "cocos.cocos2d.luaoc"
+local luaoc = require "cocos.cocos2d.luaoc"
 local json = require "cocos.cocos2d.json"
 
 local apiArr = {
@@ -11,15 +11,10 @@ local apiArr = {
 
 function TestScene:ctor( ... )
 	-- self.super:ctor()
-	local T_USERINFO = 10
-	local T_CHARGE = 11
-	local T_ACHIVEMENT = 12
-	local T_END = 13
-
-	local labEvent = nil
-	local apiIndex = 1
-
 	-- local OC2LuaCallBack = function (eventType, result, msg, jsonData)
+
+    local labEvent = nil
+    local labApi = nil
 	local OC2LuaCallBack = function (jsonData)
 		print(jsonData)
 		labEvent:setString(jsonData)
@@ -86,8 +81,8 @@ function TestScene:ctor( ... )
 
 	local onClickGetLocationStr = function ( ... )
 		print("==============onClickGetLocationStr==============")
-		local arg = {callBack = OC2LuaCallBack}  
-		local result, value = luaoc.callStaticMethod("WSGameCenterInterface", "getLocationStr", arg)
+		local arg = {callBack = OC2LuaCallBack}
+		local result, value = luaoc.callStaticMethod("WSGameCenterInterface", "getLocationInfo", arg)
 		print(result, value)
 		labEvent:setString(value)
 	end
@@ -109,86 +104,82 @@ function TestScene:ctor( ... )
 		print("==============onClickEnd==============")
 		local result, value = luaoc.callStaticMethod("WSGameCenterInterface", "stopGame")
 		print(result, value)
-		
-	end
-
-	local onlick = function ( pSender, event )
-		local tag = pSender:getTag()
-		print("event = ", event)
-		if event == 0 then 
-			pSender:setScale(0.8)
-		else
-			pSender:setScale(1.0)
-		print("touch tag = ", tag)
-		if tag == T_USERINFO then
-			onClickUserInfo()
-		elseif tag == T_CHARGE then
-			onClickCharge()
-		elseif tag == T_ACHIVEMENT then
-			onClickAchivement()
-		elseif tag == T_END then
-			onClickEnd()
-		end
-	end
-end
-     
-
-
-
-
-
+	end 
 
 	local size = cc.Director:getInstance():getWinSize()
 	local lab2 = cc.LabelTTF:create("lua游戏", "fonts/arial.ttf", 30, cc.size(0,0), 0);
-	lab2:setPosition(cc.p(280, size.height - 100))
+	lab2:setPosition(cc.p(0, size.height - 100))
 	lab2:setAnchorPoint(cc.p(0,0.5))
-	self:addChild(lab2)
+	-- self:addChild(lab2)
 
     local root = cc.CSLoader:createNode("MainScene.csb")
     self:addChild(root)
 
-    local labApi = root:getChildByName("lab_api");
-    local labEvent = root:getChildByName("lab_event");
+    labApi = root:getChildByName("lab_api");
+    labEvent = root:getChildByName("lab_event");
     local btn_changeApi = root:getChildByName("btn_changeApi")
     btn_changeApi:addTouchEventListener(function (pSender, event)
-    	apiIndex = (apiIndex+1) % 3
-    	labApi:setString(apiArr[apiIndex])
-    	print("click event = ", event)
+    	if event == 2 then
+	    	apiIndex = (apiIndex+1) % 3
+	    	labApi:setString(apiArr[apiIndex])
+	    	print("click changeApi ...")
+	    end
     end)
 
     local btn_charge = root:getChildByName("btn_charge")
     btn_charge:addTouchEventListener(function (pSender, event)
-    	onClickCharge()
+    	if event == 2 then
+    		onClickCharge()
+    		print("click charge ...")
+    	end
     end)
 
     local btn_quary = root:getChildByName("btn_quary")
     btn_quary:addTouchEventListener(function (pSender, event)
-    	onClickUserInfo()
+    	if event == 2 then
+    		onClickUserInfo()
+    		print("click quary user info ...")
+    	end
     end)
 
     local btn_addAchivement = root:getChildByName("btn_addAchivement")
     btn_addAchivement:addTouchEventListener(function (pSender, event)
-    	onClickAchivement()
+    	if event == 2 then
+    		onClickAchivement()
+    		print("click  add Achivement user info ...")
+    	end
     end)
 
     local btn_share = root:getChildByName("btn_share")
     btn_share:addTouchEventListener(function (pSender, event)
-    	onClickShare()
+    	if event == 2 then
+    		onClickShare()
+    		print("click share ...")
+    	end
     end)
 
     local btn_getLocation = root:getChildByName("btn_getLocation")
     btn_getLocation:addTouchEventListener(function (pSender, event)
-    	onClickGetLocationStr()
+    	if event == 2 then
+    		onClickGetLocationStr()
+    		print("click GetLocationStr ...")
+    	end
     end)
 
     local btn_push = root:getChildByName("btn_push")
     btn_push:addTouchEventListener(function (pSender, event)
-    	onClickGetPushMsg()
+    	if event == 2 then
+    		onClickGetPushMsg()
+    		print("click GetPushMsg ...")
+    	end
     end)
 
     local btn_quit = root:getChildByName("btn_quit")
     btn_quit:addTouchEventListener(function (pSender, event)
-    	onClickEnd()
+    	if event == 2 then
+    		print("click end Game ...")
+    		onClickEnd()
+    	end
     end)
 
 end

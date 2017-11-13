@@ -72,11 +72,11 @@ bool WSGameHallTestScene::init()
 		((ui::Text*)labApi)->setString(apiArr[count++ % 3]);
 	});
 
+	static int orderCount = 0;
 	auto* btn_charge = node->getChildByName("btn_charge");
 	((ui::Button*)btn_charge)->addClickEventListener([this](Ref*){
 		log("click doPay 1");
 		struct timeval tv_begin;
-		static int orderCount = 0;
 		(++orderCount) %= 1000000;//每毫秒设定上限1000000订单
 		int error = gettimeofday(&tv_begin,NULL);
 		time_t tt = time(NULL);//这句返回的只是一个时间cuo
@@ -85,10 +85,10 @@ bool WSGameHallTestScene::init()
 		ss << tt;
 		ss << tv_begin.tv_usec / 1000;
 		char temp[8] = { 0 };
-		sprintf_s(temp, "%07d", orderCount);
+		sprintf(temp, "%07d", orderCount);
 		ss << temp;
 		std::string ret = ss.str();
-		WSGameHallUtils::getInstance()->doPay(ret, "10", "cocos测试购买", "");
+		WSGameHallUtils::getInstance()->doPay(ret, 10, "cocos测试购买", "");
 		log("click doPay 2");
 	});
 

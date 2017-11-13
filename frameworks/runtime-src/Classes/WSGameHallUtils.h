@@ -23,7 +23,7 @@ public:
 	void doQueryUserInfo();
 
 	/*微赛支付接口，异步返回支付结果*/
-	void doPay(std::string orderId, std::string cost, std::string desc, std::string extralInfo);
+	void doPay(std::string orderId, int cost, std::string desc, std::string extralInfo);
 
 	/*微赛分享接口，异步返回结果*/
 	void doShare(std::string title, std::string content, std::string iconUrl, std::string h5Url);

@@ -12,10 +12,10 @@ public class Utils {
         Hall2GameInterface.getBo().doQueryUserInfo();
     }
 
-    public static void doPay(String orderId, String cost, String description, String extralContent) {
+    public static void doPay(String orderId, int cost, String description, String extralContent) {
         Log.d("MyGame", "doPay");
         Log.d("MyGame", "orderId: "+orderId+" cost: "+cost+" description: "+description+" extralContent: "+extralContent);
-        PayEntity pay = new PayEntity();
+        PayEntity pay = new PayEntity(orderId, cost);
         pay.setOrder_id(orderId);
         pay.setAmount(cost);
         pay.setDescription(description);
